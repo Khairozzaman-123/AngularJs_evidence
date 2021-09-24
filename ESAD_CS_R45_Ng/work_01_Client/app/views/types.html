@@ -1,0 +1,55 @@
+﻿
+
+<div class="row" ng-controller="typeCtrl">
+    <div class="col-12">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" ng-show="apiMessage">
+            {{apiMessage}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">&times;</button>
+        </div>
+        <h2 class="display-6">Vehcle Type</h2>
+        <div class="d-flex justify-content-end mb-1">
+            <a href="#!/createType" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle"></i> Create Type</a>
+        </div>
+
+        <table class="table table-bordered">
+            <thead class="bg-light">
+                <tr>
+                    <th>Type Name</th>
+                    <th>Common Use</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="t in model.types">
+                    <td>{{t.typeName}}</td>
+                    <td>{{t.suitableFor}}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" ng-click="editType(t)">Edit</button>
+                        <button class="btn btn-danger btn-sm" ng-click="confirmDelete(t)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal" tabindex="-1" id="delModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure to delete this item?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" ng-click="cancelDeleteType()">Close</button>
+                    <button type="button" class="btn btn-danger" ng-click="doDeleteType()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mb-1">
+    <a href="#!/">Back to list</a>
+</div>
+

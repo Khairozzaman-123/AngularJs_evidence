@@ -1,0 +1,25 @@
+﻿<div ng-controller="carCtrl">
+    <h2>Vehicle Types</h2>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead class="bg-light">
+                    <tr>
+                        <th>Vehicle Id</th>
+                        <th>Model</th>
+                        <th>Capacity</th>
+                        <th>Feature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="v in model.vehicles|filter:selectedTypeFilter">
+                        <td>{{v.vehicleId}}</td>
+                        <td>{{v.model}}</td>
+                        <td>{{v.capacity}}</td>
+                        <td>{{v.mainFeature}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+﻿<div class="row" ng-controller="typeCtrl">
+    <div class="col">
+        <h3>Edit vehcle type</h3>
+        <form name="typeForm">
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-form-label-sm col-2">Type Name</label>
+                <div class="col-4">
+                    <input type="text"
+                           class="form-control form-control-sm"
+                           name="typeName"
+                           ng-model="typeObject.typeName"
+                           ng-maxlength="30"
+                           required />
+                    <div class="text-danger" ng-show="!typeForm.typeName.$pristine && typeForm.typeName.$error.required">
+                        TypeName is required!
+                    </div>
+                    <div class="text-danger" ng-show="!typeForm.typeName.$pristine && typeForm.typeName.$error.maxlength">
+                        TypeName can be 30 char max!
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label class="col-form-label col-form-label-sm col-2">Common Use</label>
+                <div class="col-4">
+                    <input type="text"
+                           class="form-control form-control-sm"
+                           name="typeName"
+                           ng-model="typeObject.suitableFor"
+                           ng-maxlength="200"
+                           required />
+                    <div class="text-danger" ng-show="!typeForm.suitableFor.$pristine && typeForm.suitableFor.$error.required">
+                        Common Use is required!
+                    </div>
+                    <div class="text-danger" ng-show="!typeForm.suitableFor.$pristine && typeForm.suitableFor.$error.maxlength">
+                        Common Use can be 200 char max!
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <div class="col-10 offset-2">
+                    <button type="submit" ng-click="updateType(typeForm)" class="btn btn-primary" ng-disabled="typeForm.$invalid">Update</button>
+                </div>
+            </div>
+        </form>
+        <a href="#!/vehicleTypes">Back to type list</a>
+    </div>
+</div>

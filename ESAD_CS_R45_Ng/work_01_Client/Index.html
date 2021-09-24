@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html ng-app="vehicleApp">
+<head>
+    <meta charset="utf-8" />
+    <title>AngularJs</title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="./node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="Scripts/jquery-3.6.0.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <style>
+        body {
+            padding-top: 70px;
+        }
+
+        .wrapper {
+            display: flex;
+            width: 100%;
+            min-height: calc(100vh-140px);
+            align-items: stretch;
+        }
+
+        .side {
+            width: 240px;
+        }
+
+        .main {
+            width: calc(100vw-240px);
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body ng-controller="rootCtrl">
+    <nav class="navbar navbar-dark bg-success navbar-expand-md fixed-top shadow-sm">
+        <div class="container-fluid">
+            <span class="navbar-brand">Angular 1.8</span>
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#!/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#!/vehicleTypes">Vehicle Types</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="wrapper">
+            <div class="side">
+                <div class="list-group list-group-item-primary">
+                    <a href="#" class="list-group-item active">
+                        <h5>Vehcile Types</h5>
+                    </a>
+                    <a href="#!/vehicleTypes/{{t.vehicleTypeId}}" ng-repeat="t in model.types" class="list-group-item">
+                        {{t.typeName}}
+                    </a>
+                </div>
+            </div>
+            <div class="main w-100">
+                <ng-view></ng-view>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <p class="text-center">www.isdb-bisew.org</p>
+    </div>
+
+    <script src="Scripts/angular-route.js"></script>
+    <script type="text/javascript">
+        angular.module("vehicleApp", ['ngRoute'])
+            .constant('apiUrl', "http://localhost:57850/api/")
+            .config($routeProvider => {
+                $routeProvider
+                    .when("/", {
+                        templateUrl: "/app/views/home.html"
+                    })
+                    .when("/vehicleTypes", {
+                        templateUrl: "/app/views/types.html"
+                    })
+                    .when("/vehicleTypes/:id", {
+                        templateUrl: "/app/views/carOfType.html"
+                    })
+                    .when("/createType", {
+                        templateUrl: "/app/views/typeForm.html"
+                    })
+                    .when("/editType/:id", {
+                        templateUrl: "/app/views/editTypeForm.html"
+                    })
+
+                    .otherwise("/")
+            })
+            .controller("rootCtrl", ($scope, $http, apiUrl, apiService) => {
+                //model
+                $scope.model = {};
+                //Controller data vars
+                $scope.selectedTypeId = null;
+                //Global Vars
+                $scope.typeObject = {};
+                $scope.apiMessage = "";
+
+                apiService.get(`${apiUrl}VehicleTypes`)
+                    .then(r => {
+                        $scope.model.types = r.data;
+                        console.log(r.data);
+                    })
+                apiService.get(`${apiUrl}Vehicles`)
+                    .then(r => {
+                        $scope.model.vehicles = r.data;
+                        console.log(r.data);
+                    })
+                $scope.selectedTypeFilter = (v) => {
+                    console.log(v);
+                    console.log('selected' + $scope.selectedTypeId);
+                    return $scope.selectedTypeId == null || v.vehicleTypeId == $scope.selectedTypeId;
+                }
+                $scope.$on('selectedTypeChange', (evt, data) => {
+                    console.log('event');
+                    console.log('selected' + data);
+                    $scope.selectedTypeId = data;
+                    console.log('selected' + $scope.selectedTypeId);
+                })
+
+            });
+
+    </script>
+    <script src="app/controllers/typesCtrl.js"></script>
+    <script src="app/services/apiService.js"></script>
+    <script src="app/controllers/carCtrl.js"></script>
+</body>
+</html>
